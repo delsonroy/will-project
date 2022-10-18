@@ -35,8 +35,8 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
            
            if(doc.status=="active"){
             if(doc.role=="admin"){
-               const log= "login"
-                res.redirect('/admin',)
+              
+                res.redirect('/admin/index')
                   
             }
             else if(doc.role=="user"){
@@ -51,7 +51,11 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
         }else{
             res.render('login',{data:"one"})
         }
-        exports.log = "login"
+      var logg = "login"
+      module.exports.logg=logg
+      var idd = req.body.username;
+      module.exports.idd=idd
+     exports.log = "login"
        exports.id=req.body.username
       
             

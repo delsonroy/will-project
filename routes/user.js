@@ -1,9 +1,10 @@
 const express = require('express');
 const registration = require('../models/registration')
-
+const chats = require('../models/chats')
 
 const  router = express.Router();
-const mt = require('./login')
+const mt = require('./login');
+const { response } = require('express');
 
 function loggin(req,res,next){
     if(mt.log=="login"){
@@ -33,7 +34,10 @@ const checkUser = registration.findOne({email:mt.id},(err,doc)=>{
     res.render('userinfo',{list:doc})
    }
    else{
-    res.render('userprofile',{list:doc})
+    chats.find((err,docs)=>{
+        res.render('index',{data:docs,list:doc})
+    })
+    // res.render('userprofile',{list:doc})
    }}
    catch(err){
     res.status(400);
@@ -59,6 +63,57 @@ router.post('/complate',(req,res)=>{
             }
         })
 })
+
+
+///
+router.get('/chat',(req,res)=>{
+    registration.findOne({email:mt.id},(err,doc)=>{
+    chats.find((err,docs)=>{
+        res.render('index',{data:docs,list:doc})
+        
+    })
+})
+})
+
+
+router.post('/chat',(req,res)=>{
+    console.log(mt.id);
+    const dt = new Date()
+ 
+
+  const chat = new chats({
+    email:mt.id,
+    messages:req.body.message,
+    
+  })
+
+  try{
+     const data = chat.save().then((doc)=>{
+      res.redirect('./chat')
+     }).catch((Error)=>{
+        console.log(Error)
+     })
+ 
+    
+  }
+  catch(err){
+      res.send("error occur during the send message")
+  }
+    
+})
+
+
+router.get('/profile',(req,res)=>{
+    registration.findOne({email:mt.id},(err,doc)=>{
+
+        res.render('userprofile',{list:doc})
+
+    })
+    
+})
+
+
+
 
 
 

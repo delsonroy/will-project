@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const chats = require('../models/chats');
 const router = express.Router();
 
 
@@ -7,18 +8,44 @@ const router = express.Router();
 const registration  = require('../models/registration');
 
 
-const logg = require('./login');
-const loggin  = (req,res,next)=>{
-   console.log(logg.id)
+const mt = require('./login');
+
+function loggin(req,res,next){
+   if(mt.logg=="login"){
+       console.log(mt.idd)
+      next()
+   }
+   else{
+       res.send("please login to access this page")
+   }
 }
 
+router.use(loggin)
+
+
+
+
+
+
+
+router.get('/index',(req,res)=>{
+   registration.findOne({email:mt.idd},(err,doc)=>{
+
+
+      chats.find((err,docs)=>{
+         res.render('index',{data:docs,list:doc})
+      })
+   })
+})
+
 router.get('/',(req,res)=>{
-  loggin()
+ 
+
    const status = registration.find({status:"inactive"},(Error,docs)=>{
   
   
     const list = registration.find((Error,doc)=>{
- 
+            //   res.render('index'())
         res.render('adminindex',{dat:doc,list:docs}) 
     })
     

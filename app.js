@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 var indexRouter = require('./routes/login');
 var usersRouter = require('./routes/user');
 var admin = require('./routes/admin')
-
+var index = require('./routes/index')
 var app = express();
 
 // view engine setup
@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// const url="mongodb://localhost:27017/Willproject"
-const url="mongodb+srv://prabhjot:123@cluster0.6tgh1i7.mongodb.net/?retryWrites=true&w=majority"
+const url="mongodb://localhost:27017/Willproject"
+// const url="mongodb+srv://prabhjot:123@cluster0.6tgh1i7.mongodb.net/?retryWrites=true&w=majority"
+// const url="mongodb+srv://prabhjot:123@willproject.9iyxjmj.mongodb.net/?retryWrites=true&w=majority"
 mongoose.connect(url,{useNewUrlParser:true,   
 })
 
@@ -35,7 +36,10 @@ console.log("Connected successfully to database");
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
-app.use('/admin',admin)
+app.use('/admin',admin);
+app.use('/index',index);
+
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
