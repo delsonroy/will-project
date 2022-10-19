@@ -25,8 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-// const url="mongodb://18.209.70.80:27017/willprojectdb"
-const url =process.env.url1
+ const url="mongodb://18.209.70.80:27017/willprojectdb"
+
 
 // const url="mongodb+srv://prabhjot:123@cluster0.6tgh1i7.mongodb.net/?retryWrites=true&w=majority"
 // const url  = "mongodb+srv://prabhjot:123@cluster0.jbxelza.mongodb.net/?retryWrites=true&w=majority"
