@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 var indexRouter = require('./routes/login');
 var usersRouter = require('./routes/user');
 var admin = require('./routes/admin')
-var index = require('./routes/index')
+
 var app = express();
 
 
@@ -25,8 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-// const url="mongodb://18.209.70.80:27017/willprojectdb"
-const url =process.env.url1
+const url="mongodb://18.209.70.80:27017/willprojectdb"
+// const url =process.env.url1
 
 // const url="mongodb+srv://prabhjot:123@cluster0.6tgh1i7.mongodb.net/?retryWrites=true&w=majority"
 // const url  = "mongodb+srv://prabhjot:123@cluster0.jbxelza.mongodb.net/?retryWrites=true&w=majority"
@@ -48,7 +48,7 @@ console.log("Connected successfully to database");
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/admin',admin);
-app.use('/index',index);
+
 
 
 
