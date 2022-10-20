@@ -16,7 +16,7 @@ function loggin(req,res,next){
         res.send("please login to access this page")
     }
 }
-
+mt.log="ff"
 
 
 

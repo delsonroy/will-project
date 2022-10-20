@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
 
 
 
@@ -34,29 +35,33 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
            }else{
            
            if(doc.status=="active"){
+              
+        
             if(doc.role=="admin"){
               
                 res.redirect('/admin/index')
-                  
+             
             }
             else if(doc.role=="user"){
                 res.redirect('/user') 
+            
+
             }
           
-            
             else{
-                console.log("login is"+login)
+               
            }
-          
-        }else{
-            res.render('login',{data:"one"})
-        }
-      var logg = "logiin"
+           var logg = "logiin"
       module.exports.logg=logg
       var idd = req.body.username;
       module.exports.idd=idd
      exports.log = "login"
        exports.id=req.body.username
+        
+        }else{
+            res.render('login',{data:"one"})
+        }
+      
       
             
            }
