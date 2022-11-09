@@ -11,9 +11,10 @@ const registration  = require('../models/registration');
 const mt = require('./login');
 
 function loggin(req,res,next){
-   if(mt.logg=="login"){
+   if(mt.logg=="logiin"){
        console.log(mt.idd)
       next()
+      mt.log="kkkk"
    }
    else{
        res.send("please login to access this page")

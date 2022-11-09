@@ -10,6 +10,7 @@ function loggin(req,res,next){
     if(mt.log=="login"){
         console.log(mt.log)
        next()
+       mt.log="ff"
     }
     else{
         res.send("please login to access this page")

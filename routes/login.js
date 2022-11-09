@@ -51,7 +51,7 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
         }else{
             res.render('login',{data:"one"})
         }
-      var logg = "login"
+      var logg = "logiin"
       module.exports.logg=logg
       var idd = req.body.username;
       module.exports.idd=idd
