@@ -1,5 +1,6 @@
 const express = require('express');
 const chats = require('../models/chats');
+const bcrypt = require("bcrypt");
 const router = express.Router();
 
 
@@ -7,21 +8,12 @@ const router = express.Router();
 
 const registration  = require('../models/registration');
 
-
+const  auth = require("../auth/authin")
 const mt = require('./login');
 
-function loggin(req,res,next){
-   if(mt.logg=="logiin"){
-       console.log(mt.idd)
-      next()
-      mt.log="kkkk"
-   }
-   else{
-       res.send("please login to access this page")
-   }
-}
 
-router.use(loggin)
+
+router.use(auth.isLogin)
 
 
 
@@ -83,6 +75,52 @@ router.get('/user',(req,res)=>{
 
  
 })
+
+
+router.get('/createuser',(Req,res)=>{
+   res.render('Createuse',{data:null})
+})
+
+
+router.post('/CreateUser',(req,res)=>{
+   // console.log("sdfrgty")
+   // console.log(req.body.email)
+   const Password = req.body.pass;
+   console.log(Password)
+   const hash = bcrypt.hashSync(Password, 2);
+   
+      const user = new registration({
+       firstname:req.body.firstname,
+       lastname:req.body.lastname,
+       email:req.body.email,
+       password:hash,
+       dateofbirth:String(req.body.dob),
+       department:req.body.department,
+       experience:String(req.body.experience),
+       phonenumber:req.body.phone,
+       address:String(req.body.add),
+       education:req.body.education,
+       profilecomplete:"yes",
+       status:"active"
+      })
+   
+    console.log(user)
+      const emial = registration.findOne({email:user.email})
+      .then((doc)=>{
+          if(doc==null){
+           const ne = user.save()
+         //   console.log(doc)
+           res.render('Createuse',{data:true})
+          }else{
+           res.render('Createuse',{data:false})
+          }
+      })
+      .catch((Error)=>{
+       res.sendStatus(400)
+      })
+   
+     
+   });
 
 
 

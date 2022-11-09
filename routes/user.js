@@ -6,17 +6,7 @@ const  router = express.Router();
 const mt = require('./login');
 const { response } = require('express');
 
-function loggin(req,res,next){
-    if(mt.log=="login"){
-        console.log(mt.log)
-       next()
-       mt.log="ff"
-    }
-    else{
-        res.send("please login to access this page")
-    }
-}
-mt.log="ff"
+const  auth = require("../auth/authin")
 
 
 
@@ -24,7 +14,7 @@ mt.log="ff"
 
 
 
-router.use(loggin)
+router.use(auth.isLogin)
 
 router.get('/',(req,res)=>{
    
@@ -111,6 +101,16 @@ router.get('/profile',(req,res)=>{
 
     })
     
+})
+
+
+
+router.post('/access',(req,res)=>{
+
+    registration.findOneAndUpdate({email:mt.id},{manger:req.body.role},(err,doc)=>{
+       
+        // console.log(doc)
+    })
 })
 
 

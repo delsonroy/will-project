@@ -1,13 +1,81 @@
 const express = require('express');
+
+const session = require("express-session")
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
+const nodemailer= require("nodemailer")
+const randomstring = require("randomstring")
 
+router.use(session({secret:"hellomynameisprabhjot",cookie: { secure: !true }}))
 
 
 
 const registration = require("../models/registration")
 const user = require('./user')
+
+
+
+const sendMailtoResetpass =async(name,email,tokan)=>{
+    try {
+     const tranporter=    nodemailer.createTransport({
+        host:"smtp.gmail.com",
+        port:587,
+        secure:false,
+        requireTLS:true,
+        auth:{
+            user:"prabhjotsingh2598@gmail.com",
+            pass:"anmolsingh"
+        }
+
+           
+
+        })
+
+        const mailOption= {
+            from:"artistsmanagement@mail.com",
+            to:email,
+            subject:'For Reset Password',
+            html:'<p>Hii ' +name+' Please copy the link <a href="http://127.0.0.1:4000/resetpassword?token='+tokan+'"> reset your password</a> '
+        } 
+
+        tranporter.sendMail(mailOption,function(error,info){
+            if(error){
+                console.log(error)
+            }
+            else{
+                console.log("mail is sent"+info)
+            }
+        })
+
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // LOGIN PAGE
 
 router.get('/',(req,res)=>{
@@ -38,11 +106,16 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
               
         
             if(doc.role=="admin"){
+                console.log(doc._id)
+                req.session.usrid= doc._id;
+                req.session.save();
+                
               
                 res.redirect('/admin/index')
              
             }
             else if(doc.role=="user"){
+                req.session.usrid= doc._id;
                 res.redirect('/user') 
             
 
@@ -51,11 +124,11 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
             else{
                
            }
-           var logg = "logiin"
-      module.exports.logg=logg
+        //    var logg = "logiin"
+    //   module.exports.logg=logg
       var idd = req.body.username;
       module.exports.idd=idd
-     exports.log = "login"
+    //  exports.log = "login"
        exports.id=req.body.username
         
         }else{
@@ -126,14 +199,53 @@ const hash = bcrypt.hashSync(Password, 2);
     res.sendStatus(400)
    })
 
-   console.log(user)
+  
 });
 
 
-module.exports = function myLogger(req, res, next) {
-    req.data="uuuuuu";
-    
-}
+
+router.get('/logout',(req,res)=>{
+    try {
+        req.session.destroy();
+        res.redirect('/')
+    } catch (error) {
+        
+    }
+})
+
+
+router.get('/forgetpass',(req,res)=>{
+    res.render('resetpass')
+})
+
+
+
+router.post('/forgetpass',async(req,res)=>{
+    try {
+
+        const userDate = await registration.findOne({email:req.body.email});
+        if(userDate){
+
+            const random = randomstring.generate();
+            sendMailtoResetpass(userDate.firstname,userDate.email,randomstring)
+           const data = registration.updateOne({email:req.body.email},{$set:{token:random}})
+
+          
+
+
+        }else{
+            res.status(400).send({success:false,msg:error.message})
+        }
+        
+    } catch (error) {
+        res.status(400).send({success:false,msg:error.message})
+    }
+})
+
+
+
+
+
 
 
 

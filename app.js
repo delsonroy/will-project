@@ -3,10 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require("express-session")
 require('dotenv').config();
 const mongoose = require('mongoose')
 
-var indexRouter = require('./routes/login');
+
+var LoginRouter = require('./routes/login');
 var usersRouter = require('./routes/user');
 var admin = require('./routes/admin')
 
@@ -23,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use(session({secret:"hellomynameisprabhjot",cookie: { secure: !true }}))
 
 // const url="mongodb://18.209.70.80:27017/willprojectdb"
 // const url =process.env.url1
@@ -33,7 +35,9 @@ const url="mongodb+srv://prabhjot:123@cluster0.6tgh1i7.mongodb.net/?retryWrites=
 // const url="mongodb+srv://prabhjot:123@willproject.9iyxjmj.mongodb.net/?retryWrites=true&w=majority"
 // const url= "mongodb://admin:CH4lfxWdceONAOea@SG-wilproject-54518.servers.mongodirector.com:27017/admin?ssl=true"
 // const url ="mongodb+srv://prabhjot:123@cluster0.qxjkwao.mongodb.net/?retryWrites=true&w=majority"
-
+// const url = "mongodb://localhost:27017/Willproject"
+  try {
+    
   
 mongoose.connect(url,{useNewUrlParser:true,   
 })
@@ -43,9 +47,19 @@ const con = mongoose.connection
 con.on('error',console.error.bind(console,"connection EROOR"))
 con.once("open", function () {
 console.log("Connected successfully to database");
-});
+});}
+catch (error) {
+    console.log(error)
+}
 
-app.use('/', indexRouter);
+
+app.get('/',(req,res)=>{
+    res.sendFile(__dirname+'/views/Page-4.html')
+})
+
+
+
+app.use('/login', LoginRouter);
 app.use('/user', usersRouter);
 app.use('/admin',admin);
 

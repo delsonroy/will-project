@@ -25,7 +25,7 @@
 						<figure>
 							<img src="images/signin-image.jpg" alt="sing up image">
 						</figure>
-						<a href="/registration" class="signup-image-link">Create an
+						<a href="/login/registration" class="signup-image-link">Create an
 							account</a>
 					</div>
 
@@ -44,7 +44,7 @@
                                                 <% if(data == "one") {%>
                                                     <h3 style="color: red;">Account is not acctivate please contect with admin</h3>
                                                             <% } %> 
-						<form method="post" action="/" class="register-form"
+						<form method="post" action="/login" class="register-form"
 							id="login-form">
 							<div class="form-group">
 								<label for="username"><i
@@ -69,6 +69,8 @@
 									class="form-submit" value="Log in" />
 							</div><a href="/registration"><button>Sign Up</button> </a>
 							</div>
+						</div><a href="/login/forgetpass">Fogetpassword</a>
+					</div>
 						</form>
 						<div class="social-login">
 							<span class="social-label">Or login with</span>
