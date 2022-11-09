@@ -106,8 +106,10 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
               
         
             if(doc.role=="admin"){
-                console.log(doc._id)
+                console.log(doc.email)
                 req.session.usrid= doc._id;
+                req.session.id= doc.email;
+
                 req.session.save();
                 
               
@@ -116,6 +118,7 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
             }
             else if(doc.role=="user"){
                 req.session.usrid= doc._id;
+                req.session.id= doc.email;
                 res.redirect('/user') 
             
 
@@ -124,12 +127,7 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
             else{
                
            }
-        //    var logg = "logiin"
-    //   module.exports.logg=logg
-      var idd = req.body.username;
-      module.exports.idd=idd
-    //  exports.log = "login"
-       exports.id=req.body.username
+    
         
         }else{
             res.render('login',{data:"one"})

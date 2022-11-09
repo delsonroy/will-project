@@ -22,7 +22,8 @@ router.use(auth.isLogin)
 
 
 router.get('/index',(req,res)=>{
-   registration.findOne({email:mt.idd},(err,doc)=>{
+   console.log(req.session.usrid)
+   registration.findOne({_id: req.session.usrid},(err,doc)=>{
 
 
       chats.find((err,docs)=>{
@@ -86,7 +87,7 @@ router.post('/CreateUser',(req,res)=>{
    // console.log("sdfrgty")
    // console.log(req.body.email)
    const Password = req.body.pass;
-   console.log(Password)
+   
    const hash = bcrypt.hashSync(Password, 2);
    
       const user = new registration({
@@ -109,7 +110,7 @@ router.post('/CreateUser',(req,res)=>{
       .then((doc)=>{
           if(doc==null){
            const ne = user.save()
-         //   console.log(doc)
+         
            res.render('Createuse',{data:true})
           }else{
            res.render('Createuse',{data:false})

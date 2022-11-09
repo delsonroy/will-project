@@ -19,7 +19,7 @@ router.use(auth.isLogin)
 router.get('/',(req,res)=>{
    
    
-const checkUser = registration.findOne({email:mt.id},(err,doc)=>{
+const checkUser = registration.findOne({_id: req.session.usrid},(err,doc)=>{
     try{
    if(doc.profilecomplete=="no"){
     res.render('userinfo',{list:doc})
@@ -40,7 +40,7 @@ router.post('/complate',(req,res)=>{
   
     const addres = String(req.body.add)
   
-    const newdata= registration.findOneAndUpdate({email:mt.id},{ department:req.body.depart,
+    const newdata= registration.findOneAndUpdate({_id: req.session.usrid},{ department:req.body.depart,
         experience:String(req.body.year),
         phonenumber:req.body.phone,
         address:addres,
@@ -58,7 +58,7 @@ router.post('/complate',(req,res)=>{
 
 ///
 router.get('/chat',(req,res)=>{
-    registration.findOne({email:mt.id},(err,doc)=>{
+    registration.findOne({_id: req.session.usrid},(err,doc)=>{
     chats.find((err,docs)=>{
         res.render('index',{data:docs,list:doc})
         
@@ -95,7 +95,7 @@ router.post('/chat',(req,res)=>{
 
 
 router.get('/profile',(req,res)=>{
-    registration.findOne({email:mt.id},(err,doc)=>{
+    registration.findOne({_id: req.session.usrid},(err,doc)=>{
 
         res.render('userprofile',{list:doc})
 
@@ -107,7 +107,7 @@ router.get('/profile',(req,res)=>{
 
 router.post('/access',(req,res)=>{
 
-    registration.findOneAndUpdate({email:mt.id},{manger:req.body.role},(err,doc)=>{
+    registration.findOneAndUpdate({_id: req.session.usrid},{manger:req.body.role},(err,doc)=>{
        
         // console.log(doc)
     })
