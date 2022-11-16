@@ -70,10 +70,14 @@ router.get('/chat',(req,res)=>{
 router.post('/chat',(req,res)=>{
     console.log(mt.id);
     const dt = new Date()
+
+    registration.findOne({_id: req.session.usrid},(err,doc)=>{
+
+   
  
 
   const chat = new chats({
-    email:mt.id,
+    email:doc.email,
     messages:req.body.message,
     
   })
@@ -90,7 +94,7 @@ router.post('/chat',(req,res)=>{
   catch(err){
       res.send("error occur during the send message")
   }
-    
+})  
 })
 
 

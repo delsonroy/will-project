@@ -77,6 +77,27 @@ router.get('/user',(req,res)=>{
  
 })
 
+router.get('/userupdate/:id',async(req,res)=>{
+   const user =await registration.findById(req.params.id);
+   if(!user){
+      console.log("usernot found")
+   }
+   else{
+      res.render('update',{user})
+   }
+})
+
+
+router.put('/userupdate/:id',(req,res)=>{
+    const user = registration.findByIdAndUpdate(req.params.id,req.body,{
+      new:true,
+      runValidators : true,
+      useFindAndModyfy:false
+    })
+    res.render('update', {user})
+
+})
+
 
 router.get('/createuser',(Req,res)=>{
    res.render('Createuse',{data:null})

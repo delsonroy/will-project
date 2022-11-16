@@ -167,12 +167,13 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
 
 
 router.get('/registration',(req,res)=>{
-    res.render('ragistration',{data:null})
+    res.render('signup',{data:null})
 });
 
 router.post('/registration',(req,res)=>{
    console.log(req.body.name)
     const Password = req.body.pass;
+    console.log(Password)
 const hash = bcrypt.hashSync(Password, 2);
 
    const user = new registration({
@@ -188,9 +189,9 @@ const hash = bcrypt.hashSync(Password, 2);
    .then((doc)=>{
        if(doc==null){
         const ne = user.save()
-        res.render('ragistration',{data:true})
+        res.render('signup',{data:true})
        }else{
-        res.render('ragistration',{data:false})
+        res.render('signup',{data:false})
        }
    })
    .catch((Error)=>{
