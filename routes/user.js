@@ -108,12 +108,20 @@ router.get('/profile',(req,res)=>{
 })
 
 
+router.get('/access',(req,res)=>{
+ registration.findById({_id:req.session.usrid},(err,doc)=>{
+    
+    res.render('access',{doc})
+ })
+    
+})
+
+
 
 router.post('/access',(req,res)=>{
 
-    registration.findOneAndUpdate({_id: req.session.usrid},{manger:req.body.role},(err,doc)=>{
-       
-        // console.log(doc)
+    registration.findOneAndUpdate({_id: req.session.usrid},{statuschangereq:req.body.request},{new:true},(err,doc)=>{
+    res.render("access",{doc})
     })
 })
 

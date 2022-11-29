@@ -13,6 +13,10 @@ const events = new mongoose.Schema({
     },
     description:{
         type:String
+    },
+    totaltickets:{
+        type:Number,
+        default:0
     }
 })
 

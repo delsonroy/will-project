@@ -39,12 +39,16 @@
 
 <%-include('./chat')-%> 
 
-
+<% if(list.role=="user"){ %>
+   
+      <a href="/user/access">  <button type="submit">Send the request For access Manger level</button></a> 
+    
+    <% } if(list.role=="admin") { %>
+      
+        <a href="/admin/events">  <button type="submit">Create a new event</button></a> 
+    <% } %>
  
-<form action="/user/access" method="post">
-    <input type="hidden" name="role" value="yes">
-    <button type="submit">Send the request For access Manger level</button>
-</form>
+
 
    
 </body>

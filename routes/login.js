@@ -79,7 +79,7 @@ const sendMailtoResetpass =async(name,email,tokan)=>{
 // LOGIN PAGE
 
 router.get('/',(req,res)=>{
-    res.render('login',{data:null})
+    res.render('loggin',{data:null})
    });
 
 router.post('/',(req,res)=>{
@@ -88,7 +88,7 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
 
     //IF USER IS NOT IN THE DATABASE
     if(doc==null){
-        res.render('login',{data:false})
+        res.render('loggin',{data:false})
     }
     else{
 
@@ -99,7 +99,7 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
         userToken.then(function(result) {
         //    console.log(result)
            if(result==false){
-             res.render('login',{data:true})
+             res.render('loggin',{data:true})
            }else{
            
            if(doc.status=="active"){
@@ -130,7 +130,7 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
     
         
         }else{
-            res.render('login',{data:"one"})
+            res.render('loggin',{data:"one"})
         }
       
       

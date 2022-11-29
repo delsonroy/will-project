@@ -39,8 +39,16 @@ router.get('/',(req,res)=>{
   
   
     const list = registration.find((Error,doc)=>{
-            //   res.render('index'())
-        res.render('adminindex',{dat:doc,list:docs}) 
+
+      registration.find({statuschangereq:"yes"},(err,docss)=>{
+
+         registration.find({profilecomplete:"no"},(err,user)=>{
+           
+        res.render('adminindex',{dat:doc,list:docs,docss,user}) 
+
+
+      })
+      })
     })
     
    })
@@ -71,6 +79,8 @@ const depart = String((req.body.depart))
 
 router.get('/user',(req,res)=>{
  registration.find((Error,doc)=>{
+
+
     res.render('user',{data:doc})
  })
 
@@ -88,13 +98,33 @@ router.get('/userupdate/:id',async(req,res)=>{
 })
 
 
-router.put('/userupdate/:id',(req,res)=>{
-    const user = registration.findByIdAndUpdate(req.params.id,req.body,{
+router.post('/userupdate',(req,res)=>{
+
+   console.log(req.body)
+   
+    const user = registration.findByIdAndUpdate(req.body.id,req.body,{
       new:true,
       runValidators : true,
       useFindAndModyfy:false
     })
     res.render('update', {user})
+
+})
+
+
+router.get('/delete/:id',(req,res)=>{
+
+
+  registration.findOneAndDelete({_id:req.params.id},(err,doc)=>{
+   if(!err){
+      res.redirect('/admin/user')
+   }
+  })
+   
+  
+
+
+      
 
 })
 
@@ -143,6 +173,12 @@ router.post('/CreateUser',(req,res)=>{
    
      
    });
+
+
+
+   router.get('/events',(req,res)=>{
+       res.send("kfjgjmikj")
+   })
 
 
 
