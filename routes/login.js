@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 const nodemailer= require("nodemailer")
 const randomstring = require("randomstring")
+require('dotenv').config();
 
 router.use(session({secret:"hellomynameisprabhjot",cookie: { secure: !true }}))
 
@@ -24,8 +25,8 @@ const sendMailtoResetpass =async(name,email,tokan)=>{
         secure:false,
         requireTLS:true,
         auth:{
-            user:"prabhjotsingh2598@gmail.com",
-            pass:"anmolsingh"
+            user:process.env.email,
+            pass:process.env.pass
         }
 
            
@@ -36,7 +37,8 @@ const sendMailtoResetpass =async(name,email,tokan)=>{
             from:"artistsmanagement@mail.com",
             to:email,
             subject:'For Reset Password',
-            html:'<p>Hii ' +name+' Please copy the link <a href="http://127.0.0.1:4000/resetpassword?token='+tokan+'"> reset your password</a> '
+            html:'<p> hello'+name+'Your one time password   = '  +   tokan   +  '  = for reset your password</a> ',
+           
         } 
 
         tranporter.sendMail(mailOption,function(error,info){
@@ -105,7 +107,7 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
            if(doc.status=="active"){
               
         
-            if(doc.role=="admin"){
+            if(doc.role=="admin") {
                 console.log(doc.email)
                 req.session.usrid= doc._id;
                 req.session.id= doc.email;
@@ -124,7 +126,15 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
 
             }
           
-            else{
+            else if(doc.role=="manger") {
+                console.log(doc.email)
+                req.session.usrid= doc._id;
+                req.session.id= doc.email;
+
+                req.session.save();
+                
+              
+                res.redirect('/admin/index')
                
            }
     
@@ -214,32 +224,83 @@ router.get('/logout',(req,res)=>{
 
 
 router.get('/forgetpass',(req,res)=>{
-    res.render('resetpass')
+    res.render('resetpass',{data:true})
 })
 
 
 
 router.post('/forgetpass',async(req,res)=>{
+    console.log(req.body.email)
     try {
 
         const userDate = await registration.findOne({email:req.body.email});
+       
         if(userDate){
 
-            const random = randomstring.generate();
-            sendMailtoResetpass(userDate.firstname,userDate.email,randomstring)
-           const data = registration.updateOne({email:req.body.email},{$set:{token:random}})
-
-          
+            const random = randomstring.generate(6);
+            
+            sendMailtoResetpass(userDate.firstname,userDate.email,random)
+          registration.findOneAndUpdate({email:req.body.email},{$set:{token:random}},{new:true},(err,doc)=>{
+            console.log(doc)
+            res.render('OTPValidater',{email:userDate.email,data:true})
+          })
+            
+         
 
 
         }else{
-            res.status(400).send({success:false,msg:error.message})
+            res.render('resetpass',{data:false})
         }
         
     } catch (error) {
-        res.status(400).send({success:false,msg:error.message})
+        res.status(400).send({success:false,msg:"mkosdm"})
     }
 })
+
+
+router.post('/changepass',(req,res)=>{
+    console.log(req.body)
+   registration.findOne({email:req.body.email},(err,doc)=>{
+   if(doc.token != req.body.otp){
+    res.render('OTPValidater',{email:doc.email,data:false})
+   }
+   else{
+    res.render('SetNewPass',{email:doc.email,data:false})
+   }
+   })
+})
+
+
+router.post('/newpass',(req,res)=>{
+    
+    const Password = req.body.pass
+    const hash = bcrypt.hashSync(Password, 2);
+
+    // registration.findOneAndUpdate({email:req.body.email},{$set:{password:hash}},{new:true},(err,doc)=>{
+    //     console.log(doc)
+    //     res.render('SetNewPass',{data:true})
+    // })
+    registration.findOne({email:req.body.email},(err,doc)=>{
+        console.log(doc)
+     
+      })
+})
+
+
+router.post('/newpasss',(req,res)=>{
+    const email = String(req.body.email)
+    console.log(email)
+    const Password = req.body.pass
+    const hash = bcrypt.hashSync(Password, 2);
+
+    registration.findOneAndUpdate({email:email},{$set:{password:hash}},{new:true},(err,doc)=>{
+        console.log(doc)
+        res.render('SetNewPass',{data:true})
+    })
+   
+})
+
+
 
 
 

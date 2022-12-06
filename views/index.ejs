@@ -20,15 +20,74 @@
     h1{
      padding: 20px;
     }
+     .main{
+        display: grid;
+        grid-template-columns: 30% 30% 30%;
+        grid-gap: 3em;
+        grid-auto-rows:minmax(400px,auto);
+        justify-content: center;
+      
+    }
+
+    .event{
+        height: auto;
+        width: 300px;
+       padding: 1em;
+       margin: 1em;
+       
+       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+       
+     
+        
+    } -->
+    .event img{
+        height: 200px;
+    }
+
+    .request{
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 20px;
+        margin: 20px;
+    }
+
+
+    @media only screen and (max-width:1010px){
+
+         .main{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-gap: 3em;
+        grid-auto-rows:minmax(400px,auto);
+
+      
+    }
+    }
+    
+    @media only screen and (max-width:750px){
+
+        .main{
+       display: grid;
+       grid-template-columns: 50% ;
+       grid-gap: 3em;
+       grid-auto-rows:minmax(400px,auto);
+   
+     
+   }
+   .event{
+    width: 500px;
+   }
+   }
 </style>
 
 
 <body>
     <% if(list.role=="admin"){ %>
         <%-include('./navbar')-%> 
-        <% } else { %>
+        <% } if(list.role=="user") { %>
             <%-include('./usernavbar')-%> 
-        <% } %>
+        <% }if(list.role=="manger") { %>
+            <%-include('./mangerNavbar')-%> 
+            <% }  %>
         
 
 <div class="photo">
@@ -36,19 +95,94 @@
    <h1><%-list.firstname%> </h1>
 </div>
 
-
+<div class="chat" >
 <%-include('./chat')-%> 
-
+</div>
 <% if(list.role=="user"){ %>
-   
-      <a href="/user/access">  <button type="submit">Send the request For access Manger level</button></a> 
-    
-    <% } if(list.role=="admin") { %>
-      
-        <a href="/admin/events">  <button type="submit">Create a new event</button></a> 
-    <% } %>
- 
+<h1 style="display: flex;
+flex-direction: row;
+align-content: center;
+justify-content: center;
+margin: 20px;
+color: rgb(241,197,14)">Access level</h1>
+<div class="request" style="display: grid;justify-content: center;" >
 
+
+    <p>To get the manager lever access you have to send the request to admin</p>
+   
+      <a href="/user/access">  <button type="submit" style="    background-color: rgb(124,87,187);
+        color: white;">Send the request For access Manger level</button></a> 
+    </div>
+    <% } if(list.role=="admin" ) { %>
+        <h1 style="display: flex;
+flex-direction: row;
+align-content: center;
+justify-content: center;
+margin: 20px;
+color: rgb(241,197,14)">Create an event</h1>
+<div class="request" style="display: grid;justify-content: center;" >
+        <p>Create the new events for the public</p>
+        <a href="/admin/events">  <button type="submit" style="    background-color: rgb(124,87,187);
+            color: white;">Create a new event</button></a> 
+    <% }
+    if(list.role=="manger" ) { %>
+        <h1 style="display: flex;
+flex-direction: row;
+align-content: center;
+justify-content: center;
+margin: 20px;
+color: rgb(241,197,14)">Create an event</h1>
+<div class="request" style="display: grid;justify-content: center;" >
+        <p>Create the new events for the public</p>
+        <a href="/admin/events">  <button type="submit" style="    background-color: rgb(124,87,187);
+            color: white;">Create a new event</button></a> 
+    <% } %>
+</div>
+<h1 style="display: flex;
+flex-direction: row;
+align-content: center;
+justify-content: center;
+margin: 20px;
+color: rgb(241,197,14)">Upcoming events</h1>
+<div class="request" style="display: grid;justify-content: center;" >
+<div class="main">
+    
+    <% for(var data of event){ %>
+       
+      <div class="event">
+          <img src="<%-data.photourl  %>" alt="/images/gf.jpg">
+          <h4>Name- <%-data.name  %>  </h4>
+          <p>Place/Adress- <%-data.place  %> </p>
+          <p>Deatils- <%-data. description  %> </p>
+          <p>Date- <%-data.date  %> </p>
+          <p>Time- <%-data.time  %> </p>
+          <p>Price- $-<%-data.price  %> </p>
+          <p>Ticket left- <%-data.totaltickets  %> </p>
+        
+          <% if(list.role=="user"){ %>
+            <a href="/admin/events">  <button type="submit">Buy</button></a>  
+          
+          <% } if(list.role=="admin") { %>
+            
+            <a href="/admin/eventdelete/<%= data.id %>" onclick="return confirm('are you sure to delete this Event')"><button>Delete</button></a>
+          
+              <a href="/admin/events">  <button type="submit">Buy</button></a> 
+          <% }
+          if(list.role=="manger") { %>
+            
+            <a href="/admin/eventdelete/<%= data.id %>" onclick="return confirm('are you sure to delete this Event')"><button>Delete</button></a>
+          
+              <a href="/admin/events">  <button type="submit">Buy</button></a> 
+          <% } %>
+        </div>
+   
+          <% } %>
+     
+        </div>
+   
+
+
+        <%-include('./footer')-%> 
 
    
 </body>

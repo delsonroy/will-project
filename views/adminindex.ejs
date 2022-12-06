@@ -189,24 +189,28 @@
                 </tr>
               </thead>
               <tbody>
-                <% for(var data of docss){ %>
+                <% for(var list of docss){ %>
                 <tr>
-                  <th scope="row" class="scope" ><%=data.email%></th>
-                  <td><%=data.firstname  %></td>
-                  <td><%=data.lastname  %></td>
-                  <td><%=data.dateofbirth  %></td>
-                  <td><%=data.role  %></td>
-                  <td>            <form action="" method="post">
+                  <th scope="row" class="scope" ><%=list.email%></th>
+                  <td><%=list.firstname  %></td>
+                  <td><%=list.lastname  %></td>
+                  <td><%=list.dateofbirth  %></td>
+                  <td><%=list.role  %></td>
+                  <td>  
+
+                    
+                    
+                    <form action="/admin/updatemanger" method="post">
                     <div class="form-check">
-                      <input type="hidden" name="id" value="<%= data.id %>" >  
-                    <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" value="active">
+                      <input type="hidden" name="idd" value="<%= list.id %>" >  
+                    <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" value="manger">
                     <label class="form-check-label" for="flexRadioDefault1" >
                      change the status 
                     </label>
                   </div>
                   <div class="form-check">
                   
-                    <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" checked value="inactive" >
+                    <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" checked value="user" >
                     <label class="form-check-label" for="flexRadioDefault2">
                       not change
                     </label>

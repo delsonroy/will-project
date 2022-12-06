@@ -7,6 +7,7 @@ const router = express.Router();
 
 
 const registration  = require('../models/registration');
+const event = require('../models/events')
 
 const  auth = require("../auth/authin")
 const mt = require('./login');
@@ -27,7 +28,11 @@ router.get('/index',(req,res)=>{
 
 
       chats.find((err,docs)=>{
-         res.render('index',{data:docs,list:doc})
+         event.find((err,event)=>{
+
+        
+         res.render('index',{data:docs,list:doc,event})
+      })
       })
    })
 })
@@ -81,10 +86,25 @@ router.get('/user',(req,res)=>{
  registration.find((Error,doc)=>{
 
 
-    res.render('user',{data:doc})
+    res.render('user',{data:doc,dd:null})
  })
 
  
+})
+
+router.post('/user',(req,res)=>{
+
+   registration.find((Error,doc)=>{
+
+     registration.findOne({email:req.body.email},(err,doocs)=>{
+      if(!doocs){
+      res.render('user',{data:doc,dd:doocs})
+      }else{
+         res.render('user',{data:doc,dd:doocs})
+      }
+      console.log(doocs)
+   })
+   })
 })
 
 router.get('/userupdate/:id',async(req,res)=>{
@@ -121,11 +141,17 @@ router.get('/delete/:id',(req,res)=>{
    }
   })
    
-  
+})
 
 
-      
 
+router.get('/profile/:id',(req,res)=>{
+   registration.findOne({_id: req.params.id},(err,doc)=>{
+
+       res.render('userprofile',{list:doc})
+
+   })
+   
 })
 
 
@@ -177,9 +203,85 @@ router.post('/CreateUser',(req,res)=>{
 
 
    router.get('/events',(req,res)=>{
-       res.send("kfjgjmikj")
+       res.render("createevents")
+   })
+router.post('/events',(req,res)=>{
+  
+   const events = new event({
+          name:req.body.name,
+          place:String(req.body.place),
+          date:String(req.body.date),
+          time:req.body.time,
+          description:req.body.description,
+          totaltickets:req.body.totalticket,
+          price:req.body.price,
+          photourl:req.body.photo
+
    })
 
+
+   try {
+
+      const ev = events.save()
+      res.redirect('/admin/events')
+      
+   } catch (error) {
+      res.send(200)
+      
+   }
+
+   console.log(events)
+})
+
+router.get('/eventdelete/:id',(req,res)=>{
+
+
+   event.findOneAndDelete({_id:req.params.id},(err,doc)=>{
+    if(!err){
+       res.redirect('/admin/index')
+    }
+   })
+    
+   
+ 
+ 
+       
+ 
+ })
+
+
+
+ router.post('/updatemanger',(req,res)=>{
+console.log(req.body)
+  registration.findByIdAndUpdate({_id:req.body.idd},{role:req.body.status,statuschangereq:"no"},{new:true},(err,doc)=>{
+   console.log(doc)
+  })
+})
+
+
+
+router.get('/mangerUser',(req,res)=>{
+   registration.find((Error,doc)=>{
+
+
+      res.render('mangersearch',{data:doc,dd:false})
+   })
+})
+
+
+router.post('/mangerUser',(req,res)=>{
+   registration.find((Error,doc)=>{
+
+      registration.findOne({email:req.body.email},(err,doocs)=>{
+       if(!doocs){
+       res.render('mangersearch',{data:doc,dd:doocs})
+       }else{
+          res.render('mangersearch',{data:doc,dd:doocs})
+       }
+       console.log(doocs)
+    })
+    })
+})
 
 
 

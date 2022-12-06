@@ -8,6 +8,9 @@ require('dotenv').config();
 const mongoose = require('mongoose')
 
 
+const events = require('./models/events')
+
+
 var LoginRouter = require('./routes/login');
 var usersRouter = require('./routes/user');
 var admin = require('./routes/admin')
@@ -27,14 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({secret:"hellomynameisprabhjot",cookie: { secure: !true }}))
 
-// const url="mongodb://18.209.70.80:27017/willprojectdb"
-// const url =process.env.url1
 
-// const url="mongodb+srv://prabhjot:123@cluster0.6tgh1i7.mongodb.net/?retryWrites=true&w=majority"
-// const url  = "mongodb+srv://prabhjot:123@cluster0.jbxelza.mongodb.net/?retryWrites=true&w=majority"
-// const url="mongodb+srv://prabhjot:123@willproject.9iyxjmj.mongodb.net/?retryWrites=true&w=majority"
-// const url= "mongodb://admin:CH4lfxWdceONAOea@SG-wilproject-54518.servers.mongodirector.com:27017/admin?ssl=true"
-// const url ="mongodb+srv://prabhjot:123@cluster0.qxjkwao.mongodb.net/?retryWrites=true&w=majority"
 const url = "mongodb://localhost:27017/Willproject"
   try {
     
@@ -54,7 +50,10 @@ catch (error) {
 
 
 app.get('/',(req,res)=>{
-    res.sendFile(__dirname+'/views/Page-4.html')
+     events.find((err,doc)=>{
+
+    res.render('page-4',{doc})
+  })
 })
 
 

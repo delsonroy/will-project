@@ -7,7 +7,7 @@ const mt = require('./login');
 const { response } = require('express');
 
 const  auth = require("../auth/authin")
-
+const event = require('../models/events')
 
 
 
@@ -26,7 +26,9 @@ const checkUser = registration.findOne({_id: req.session.usrid},(err,doc)=>{
    }
    else{
     chats.find((err,docs)=>{
-        res.render('index',{data:docs,list:doc})
+        event.find((err,event)=>{
+        res.render('index',{data:docs,list:doc,event})
+        })
     })
     // res.render('userprofile',{list:doc})
    }}
@@ -60,8 +62,9 @@ router.post('/complate',(req,res)=>{
 router.get('/chat',(req,res)=>{
     registration.findOne({_id: req.session.usrid},(err,doc)=>{
     chats.find((err,docs)=>{
-        res.render('index',{data:docs,list:doc})
-        
+        event.find((err,event)=>{
+        res.render('index',{data:docs,list:doc,event})
+        })
     })
 })
 })
