@@ -8,6 +8,7 @@ require('dotenv').config();
 const mongoose = require('mongoose')
 
 
+
 const events = require('./models/events')
 
 
@@ -31,8 +32,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret:"hellomynameisprabhjot",cookie: { secure: !true }}))
 
 
-const url = "mongodb://localhost:27017/Willproject"
-  try {
+
+ const url =process.env.url1
+
+
+
+try {
+
     
   
 mongoose.connect(url,{useNewUrlParser:true,   
@@ -49,12 +55,14 @@ catch (error) {
 }
 
 
+
 app.get('/',(req,res)=>{
      events.find((err,doc)=>{
 
     res.render('page-4',{doc})
   })
 })
+
 
 
 

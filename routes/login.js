@@ -142,7 +142,9 @@ const data =  registration.findOne({email:req.body.username},(err,doc)=>{
         }else{
             res.render('loggin',{data:"one"})
         }
+
       
+
       
             
            }
