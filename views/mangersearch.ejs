@@ -29,11 +29,11 @@
 
 </head>
 <body>
-   <div>  <%-include('./navbar')-%> </div>
+   <div>  <%-include('./mangerNavbar')-%> </div>
 
    <div class="input-group">
     <div class="form-outline">
-      <form action="/admin/user" method="post">
+      <form action="/admin/mangerUser" method="post">
       <input type="search" id="form1" class="form-control" name="email" placeholder="Search by email" />
       <label class="form-label" for="form1">Search</label>
    
@@ -62,9 +62,7 @@
           <th scope="col">Date of Birth</th>
           <th scope="col">Role</th>
           <th scope="col">Status</th>
-          <th scope="col">view</th>
-          <th scope="col">update</th>
-          <th scope="col">delete</th>
+         
         </tr>
       </thead>
       <tbody>
@@ -77,10 +75,7 @@
           <td><%=dd.dateofbirth  %> </td>
           <td><%=dd.role  %> </td>
           <td><%=dd.status  %> </td>
-          <td><a href="/admin/profile/<%= data.id %>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-          <td><a href="/admin/userupdate/<%= dd.id %>"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
-          <td><a href="/admin/delete/<%=dd.id %>" onclick="return confirm('are you sure to delete this record')"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-         
+          
         </tr>
        
         
@@ -104,9 +99,7 @@
            <th scope="col">Date of Birth</th>
            <th scope="col">Role</th>
            <th scope="col">Status</th>
-           <th scope="col">view</th>
-           <th scope="col">update</th>
-           <th scope="col">delete</th>
+         
          </tr>
        </thead>
        <tbody>
@@ -119,9 +112,6 @@
            <td><%=data.dateofbirth  %> </td>
            <td><%=data.role  %> </td>
            <td><%=data.status  %> </td>
-           <td><a href="/admin/profile/<%= data.id %>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-           <td><a href="/admin/userupdate/<%= data.id %>"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
-           <td><a href="/admin/delete/<%= data.id %>" onclick="return confirm('are you sure to delete this record')"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
           
          </tr>
         

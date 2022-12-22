@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Document</title>
+
+    <style>
+        .main{
+            margin: 50px;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            /* align-content: center; */
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <% if(data == false) {%>
+       
+             
+             
+<div class="main">
+    <div class="card text-center" style="width: 300px;">
+        <div class="card-header h5 text-white bg-primary"><a href="/login" style="color: white;">Go to login page</a></div>
+        <br>
+        <div class="card-header h5 text-white bg-primary">Password Reset</div>
+        <div class="card-body px-5">
+            <p class="card-text py-2">
+           Set a new password
+            </p>
+           
+            <form action="/login/newpasss" method="post">
+            <div class="form-outline">
+                <input type="hidden" name="email" value="<%-email %> ">
+                <input type="text" id="typeEmail" class="form-control my-3" name="pass" />
+                <label class="form-label" for="typeEmail">Set a new password</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">set password</button>
+          </form>
+            <div class="d-flex justify-content-between mt-4">
+                <a class="" href="/login">Login</a>
+                <a class="" href="/login/registration">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %> 
+
+
+<%-include('./footer')-%> 
+</body>
+</html>

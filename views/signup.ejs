@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        .divider-text {
+            position: relative;
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .divider-text span {
+            padding: 7px;
+            font-size: 12px;
+            position: relative;   
+            z-index: 2;
+        }
+        .divider-text:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            top: 55%;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .btn-facebook {
+            background-color: #405D9D;
+            color: #fff;
+        }
+        .btn-twitter {
+            background-color: #42AEEC;
+            color: #fff;
+        }
+
+
+        @media only screen and (max-width:700px){
+           .card-body{
+            max-width: 400px;
+            align-items: center;
+           } 
+        }
+    </style>
+  
+</head>
+<body>
+  
+
+
+<div class="container">
+
+<hr>
+
+
+
+
+
+<div class="card bg-light" >
+<article class="card-body mx-auto" style="width: px;">
+	<h4 class="card-title mt-3 text-center">Create Account</h4>
+	<p class="text-center">Get started with your free account</p>
+	<p>
+		<a href="/" class="btn btn-primary btn-block">    Back to home page</a>
+		<a href="https://facebook.com/login" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+	</p>
+	<p class="divider-text">
+        <span class="bg-light">OR</span>
+    </p>
+    <% if(data == true) {%>
+        <h3 style="color: rgb(18, 18, 186);"> Account Created succesfully- Go to Log in page</h3>
+                <% } %> 
+    <% if(data == false) {%>
+        <h3 style="color: rgb(186, 18, 18);"> Email already in use</h3>
+                <% } %> 
+	<form action="/login/registration" method="post">
+	<div class="form-group input-group">
+		<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+		 </div>
+        <input name="name" class="form-control" placeholder="first name" type="text" required>
+    </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+             </div>
+            <input name="lastname" class="form-control" placeholder="Last name" type="text" required >
+ 
+
+
+    </div> <!-- form-group// -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+		 </div>
+        <input name="email" class="form-control" placeholder="Email address" type="email" required>
+    </div>
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-calendar "> </i><span style="margin-left: 10px;">date of birth</span> </span>
+		 </div>
+        <input name="dob" class="form-control" placeholder="Date Of Birth" type="date" required>
+    </div>
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+		</div>
+        <input class="form-control" placeholder="Create password" type="password" id="password" required>
+    </div> <!-- form-group// -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+		</div>
+        <input class="form-control" name="pass" placeholder="Repeat password" type="password" id="confirm_password" required>
+    </div> <!-- form-group// -->   
+    <div class="g-recaptcha" data-sitekey="6LcNW_UiAAAAAJrF2KdlIKmQ54bP2vVQm-i5gm-7"></div>                                   
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block" onclick="return Validate()"> Create Account  </button>
+       
+    </div> <!-- form-group// -->      
+    <p class="text-center">Have an account? <a href="/login">Log In</a> </p>                                                                 
+</form>
+</article>
+</div> <!-- card.// -->
+
+</div> 
+<!--container end.//-->
+
+<br><br>
+
+<script type="text/javascript">
+    var password = document.getElementById("password")
+    , confirm_password = document.getElementById("confirm_password");
+  
+  function validatePassword(){
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+  
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
+</script>
+<%-include('./footer')-%> 
+</body>
+
+</html>

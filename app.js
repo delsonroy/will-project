@@ -8,6 +8,10 @@ require('dotenv').config();
 const mongoose = require('mongoose')
 
 
+
+const events = require('./models/events')
+
+
 var LoginRouter = require('./routes/login');
 var usersRouter = require('./routes/user');
 var admin = require('./routes/admin')
@@ -28,11 +32,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret:"hellomynameisprabhjot",cookie: { secure: !true }}))
 
 
-// const url =process.env.url1
 
-const url="mongodb+srv://prabhjot:123@cluster0.6tgh1i7.mongodb.net/?retryWrites=true&w=majority"
+ const url =process.env.url1
+
+
 
 try {
+
     
   
 mongoose.connect(url,{useNewUrlParser:true,   
@@ -49,9 +55,14 @@ catch (error) {
 }
 
 
+
 app.get('/',(req,res)=>{
-    res.sendFile(__dirname+'/views/Page-4.html')
+     events.find((err,doc)=>{
+
+    res.render('page-4',{doc})
+  })
 })
+
 
 
 

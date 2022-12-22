@@ -6,16 +6,10 @@ const  router = express.Router();
 const mt = require('./login');
 const { response } = require('express');
 
-function loggin(req,res,next){
-    if(mt.log=="login"){
-        console.log(mt.log)
-       next()
-       mt.log="ff"
-    }
-    else{
-        res.send("please login to access this page")
-    }
-}
+
+const  auth = require("../auth/authin")
+const event = require('../models/events')
+=======
 
 
 
@@ -24,19 +18,21 @@ function loggin(req,res,next){
 
 
 
-router.use(loggin)
+router.use(auth.isLogin)
 
 router.get('/',(req,res)=>{
    
    
-const checkUser = registration.findOne({email:mt.id},(err,doc)=>{
+const checkUser = registration.findOne({_id: req.session.usrid},(err,doc)=>{
     try{
    if(doc.profilecomplete=="no"){
     res.render('userinfo',{list:doc})
    }
    else{
     chats.find((err,docs)=>{
-        res.render('index',{data:docs,list:doc})
+        event.find((err,event)=>{
+        res.render('index',{data:docs,list:doc,event})
+        })
     })
     // res.render('userprofile',{list:doc})
    }}
@@ -50,7 +46,7 @@ router.post('/complate',(req,res)=>{
   
     const addres = String(req.body.add)
   
-    const newdata= registration.findOneAndUpdate({email:mt.id},{ department:req.body.depart,
+    const newdata= registration.findOneAndUpdate({_id: req.session.usrid},{ department:req.body.depart,
         experience:String(req.body.year),
         phonenumber:req.body.phone,
         address:addres,
@@ -68,10 +64,11 @@ router.post('/complate',(req,res)=>{
 
 ///
 router.get('/chat',(req,res)=>{
-    registration.findOne({email:mt.id},(err,doc)=>{
+    registration.findOne({_id: req.session.usrid},(err,doc)=>{
     chats.find((err,docs)=>{
-        res.render('index',{data:docs,list:doc})
-        
+        event.find((err,event)=>{
+        res.render('index',{data:docs,list:doc,event})
+        })
     })
 })
 })
@@ -80,10 +77,14 @@ router.get('/chat',(req,res)=>{
 router.post('/chat',(req,res)=>{
     console.log(mt.id);
     const dt = new Date()
+
+    registration.findOne({_id: req.session.usrid},(err,doc)=>{
+
+   
  
 
   const chat = new chats({
-    email:mt.id,
+    email:doc.email,
     messages:req.body.message,
     
   })
@@ -100,17 +101,35 @@ router.post('/chat',(req,res)=>{
   catch(err){
       res.send("error occur during the send message")
   }
-    
+})  
 })
 
 
 router.get('/profile',(req,res)=>{
-    registration.findOne({email:mt.id},(err,doc)=>{
+    registration.findOne({_id: req.session.usrid},(err,doc)=>{
 
         res.render('userprofile',{list:doc})
 
     })
     
+})
+
+
+router.get('/access',(req,res)=>{
+ registration.findById({_id:req.session.usrid},(err,doc)=>{
+    
+    res.render('access',{doc})
+ })
+    
+})
+
+
+
+router.post('/access',(req,res)=>{
+
+    registration.findOneAndUpdate({_id: req.session.usrid},{statuschangereq:req.body.request},{new:true},(err,doc)=>{
+    res.render("access",{doc})
+    })
 })
 
 
