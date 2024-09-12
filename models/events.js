@@ -9,9 +9,24 @@ const events = new mongoose.Schema({
         type:String
     },
     date:{
-        Type:String
+        type:String
+    },
+    time:{
+        type:String
     },
     description:{
+        type:String
+    },
+    price:{
+        type:Number,
+
+    },
+
+    totaltickets:{
+        type:Number,
+        default:0
+    },
+    photourl:{
         type:String
     }
 })

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+    <div class="container">
+        <form   action="/admin/userupdate" method="post">    
+          <h2>Update user</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+
+                <input type="hidden" name="_id" value="<%=user._id  %> ">
+                <label for="first">First Name</label>
+                <input type="text" name="firstname" class="form-control" placeholder="" id="first" value="<%-user.firstname  %> ">
+              </div>
+            </div>
+            <!--  col-md-6   -->
+      
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="last">Last Name</label>
+                <input type="text" class="form-control" name="lastname" placeholder="" id="last"  value="<%-user.lastname  %> ">
+              </div>
+            </div>
+            <!--  col-md-6   -->
+          </div>
+      
+      
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="company">Date of Birth</label>
+                <input type="text" class="form-control" placeholder="" name="dateofbirth" id="company" value="<%-user.dateofbirth  %> ">
+              </div>
+      
+      
+            </div>
+            <!--  col-md-6   -->
+      
+            <div class="col-md-6">
+      
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" class="form-control" id="phone" placeholder="phone" name="phonenumber" value="<%-user.phonenumber%> ">
+              </div>
+            </div>
+            <!--  col-md-6   -->
+          </div>
+          <!--  row   -->
+      
+      
+          <div class="row">
+            <div class="col-md-6">
+      
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="email"   value="<%-user.email  %> ">
+              </div>
+            </div>
+            <!--  col-md-6   -->
+      
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="url">Status <small></small></label>
+                <input type="text" class="form-control" id="url" value="<%=user.status  %> ">
+              </div>
+      
+            </div>
+            <!--  col-md-6   -->
+          </div>
+          <!--  row   -->
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="url">Address</label>
+              <input type="text" class="form-control" name="address" id="url" value="<%-user.address%> ">
+            </div>
+    
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+      
+              <div class="form-group">
+                <label for="email">Education</label>
+                <input type="text" class="form-control" id="email" name="education"  value="<%-user.education  %> ">
+              </div>
+            </div>
+            <!--  col-md-6   -->
+      
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="url">Experience <small></small></label>
+                <input type="text" class="form-control" id="url" name="experience" value="<%-user.experience  %> " >
+              </div>
+      
+            </div>
+            <!--  col-md-6   -->
+          </div>
+      
+          <label for="contact-preference">.Account Role -- <span><%=user.role  %> </span></label>
+          <div class="radio">
+            <label>
+              <input type="radio" name="role" id="contact-preference" value="admin" required >Admin
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="role" id="contact-preference" value="user" required>User
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="role" id="contact-preference" value="manger"  required>Manger
+            </label>
+          </div>
+
+          <label for="contact-preference">.Account status  -- <span><%=user.status  %> </span></label>
+          <div class="radio">
+            <label>
+              <input type="radio" name="status" id="contact-preference" value="active" required >Active
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="status" id="contact-preference" value="inactive" required >inactive
+            </label>
+          </div>
+          <label for="contact-preference">.Manger -- <span><%=user.manger  %> </span></label>
+          <div class="radio">
+            <label>
+              <input type="radio" name="manger" id="contact-preference" value="yes"  required>yes
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="manger" id="contact-preference" value="no"  required>no
+            </label>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 py-5">
+                <!-- <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
+                <div class="col-md-12"><label class="labels">Experience in music</label><input type="text" class="form-control" name="year"></div> <br> -->
+               <label for=""> Select the music department <span>Department ---<%=user.department  %> </span></label>
+          <select class="form-select" aria-label="Default select example" name="depart" required >
+           
+            <option value="" >select the department</option>
+            <option value="Theatre Artist" >Theatre Artist</option>
+            <option value="Technology">Technology</option>
+            <option value="Pianis">Pianis</option>
+            <option value="Violinist">Violinist</option>
+            <option value="Playback singer">Playback singer</option>
+          </select></div>
+            </div>
+      
+          
+      
+      
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    
+</body>
+</html>

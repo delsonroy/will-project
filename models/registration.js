@@ -53,6 +53,18 @@ education:{
 },profilecomplete:{
     type:String,
     default:"no"
+},
+manger:{
+   type:String,
+   default:"no"
+},
+statuschangereq:{
+   type:String,
+   default:"no"
+},
+token:{
+   type:String,
+   
 }
  
 
